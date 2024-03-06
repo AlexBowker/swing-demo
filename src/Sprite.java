@@ -59,6 +59,5 @@ public abstract class Sprite {
                 && this.getBottomRight().y > other.getTopLeft().y;
     }
 
-
     public abstract void tick();
 }
