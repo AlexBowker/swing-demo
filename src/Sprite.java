@@ -43,5 +43,22 @@ public abstract class Sprite {
         return size;
     }
 
+    public Point getTopLeft() {
+        return pos;
+    }
+
+    public Point getBottomRight() {
+        return new Point(pos.x + size.width, pos.y + size.height);
+    }
+
+    public boolean isColliding(Sprite other) {
+        return this != other
+                && this.getTopLeft().x < other.getBottomRight().x
+                && this.getBottomRight().x > other.getTopLeft().x
+                && this.getTopLeft().y < other.getBottomRight().y
+                && this.getBottomRight().y > other.getTopLeft().y;
+    }
+
+
     public abstract void tick();
 }

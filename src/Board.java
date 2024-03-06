@@ -19,10 +19,12 @@ public class Board extends JPanel implements ActionListener, KeyListener {
 
     public Board() {
         setPreferredSize(new Dimension(BOARD_WIDTH, BOARD_HEIGHT));
-        setBackground(Color.CYAN);
+        setBackground(Color.GRAY);
 
         player = new Player();
-        sprites = new ArrayList<>(List.of(player));
+        Wall wall = new Wall(BOARD_WIDTH / 2 - WALL_WIDTH / 2,
+                BOARD_HEIGHT / 2 - WALL_WIDTH / 2);
+        sprites = new ArrayList<>(List.of(player, wall));
 
         activeKeyCodes = new HashSet<>();
 
@@ -35,6 +37,12 @@ public class Board extends JPanel implements ActionListener, KeyListener {
 
         for(Sprite sprite : sprites) {
             sprite.tick();
+        }
+
+        for(Sprite sprite : sprites) {
+            if(player.isColliding(sprite)) {
+                player.handleCollision(sprite);
+            }
         }
 
         repaint();

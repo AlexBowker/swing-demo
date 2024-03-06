@@ -1,11 +1,12 @@
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.util.Set;
 
 import static utils.Constants.*;
 
 public class Player extends Sprite {
-    double dx;
-    double dy;
+    private double dx;
+    private double dy;
 
     public Player() {
         super(PLAYER_IMAGE_PATH, 0, 0, PLAYER_WIDTH, PLAYER_HEIGHT);
@@ -43,6 +44,26 @@ public class Player extends Sprite {
         if (dx != 0 && dy != 0) {
             dx /= Math.sqrt(2);
             dy /= Math.sqrt(2);
+        }
+    }
+
+    public void handleCollision(Sprite other) {
+        if(other.getClass().equals(Wall.class)) {
+            Point previousPos = new Point(pos.x - (int)dx, pos.y - (int)dy);
+
+            if(dx > 0 && previousPos.x + size.width <= other.getTopLeft().x) {
+                pos.x = other.getTopLeft().x - size.width;
+            }
+            else if(dx < 0 && previousPos.x >= other.getBottomRight().x) {
+                pos.x = other.getBottomRight().x;
+            }
+
+            if(dy > 0 && previousPos.y + size.height <= other.getTopLeft().y) {
+                pos.y = other.getTopLeft().y - size.height;
+            }
+            else if(dy < 0 && previousPos.y >= other.getBottomRight().y) {
+                pos.y = other.getBottomRight().y;
+            }
         }
     }
 }
